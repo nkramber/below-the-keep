@@ -4,22 +4,18 @@
 
 Update this file inside the pull request of the gate, before the owner merges it. Never write a merge commit, a pull request number, or a check result that you did not read.
 
-## RESUME HERE (2026-10-16, gate 0)
+## RESUME HERE (2026-10-16, gate 1 next)
 
-**Gate 0: the process and the session rules** (D-17). Gate file: `docs/gates/gate-00-process.md`.
+**Gate 0 merged.** Pull request #1 and the follow-up of D-31 carry it. No code exists.
 
-- Branch: `gate-00-process`. The owner makes it (D-12).
-- Base: the empty root commit on `main`. The owner makes it (D-18).
-- Pull request: not open.
+**Gate 1 comes next: the game design and the roadmap** (D-17). Gate file: `docs/gates/gate-01-design.md`.
 
-**The state.** The agent wrote each file of gate 0. No code exists. The GitHub repo is empty.
+- Branch: `gate-01-design`. The owner makes it from `main` (D-12).
+- Open questions: OQ-2 to OQ-16, OQ-18, OQ-19, OQ-22, and OQ-23.
 
-**Open work.**
+**The check before the work.** The owner runs `/permissions` and looks for the 76 deny rules of the guard (D-19).
 
-1. The owner reads each file of the diff and names each change.
-2. The owner does the git steps of section 4.
-
-**Next action.** The owner reads the diff of gate 0.
+**Next action.** Do the start check of section 1. Then ask OQ-2, the game style.
 
 ## The procedures of a session
 
@@ -88,19 +84,19 @@ The completion check passes when each item below is true:
 - A code gate: the owner ran the four checks of hard rule 5, and the output shows no failure.
 - A code gate: each import comes from the standard library (D-21).
 - `docs/decisions.md` and `docs/open-questions.md` agree with the work.
-- `docs/roadmap.md` and the gate file show the status of the gate.
-- "RESUME HERE" reads "ready to merge".
+- `docs/roadmap.md` and the gate file show the status "merged" (D-32).
+- "RESUME HERE" and "Next steps, in order" name the next gate and its first action.
 
 Do these steps:
 
-1. Do the completion check. Tell the owner the result of each item.
-2. When an item fails, fix the docs part or name the owner part. Then do the check again.
-3. Write the body of the pull request in chat, in one fenced block. Use the sections of `.github/pull_request_template.md`.
-4. The owner commits, pushes, and opens the pull request.
-5. The owner tells the agent the number of the pull request.
-6. Write "merged as #N" in `docs/roadmap.md` and in the gate file.
-7. The owner commits and pushes that change.
-8. The owner reads the diff on GitHub, and merges with squash (D-16).
+1. Write "merged" as the status of the gate in `docs/roadmap.md` and in the gate file (D-32).
+2. Write "RESUME HERE" and "Next steps, in order" for the next gate.
+3. Do the completion check. Tell the owner the result of each item.
+4. When an item fails, fix the docs part or name the owner part. Then do the check again.
+5. The owner commits, pushes, and opens the pull request. The owner writes each commit message, the title, and the body (D-33).
+6. The owner reads the diff on GitHub, and merges with squash (D-16).
+
+The status text reaches `main` only through the merge, so it is true when it arrives (D-32). When the owner asks for a change after the pull request opens, edit the docs again. The owner then pushes the change.
 
 ### 5. The transition
 
@@ -163,18 +159,11 @@ A context compaction keeps the session bound to its gate.
 - Never make a `.go` file, also not as a probe of the guard.
 - The guard blocks `git branch`. Use `git status -sb` to read the branch.
 - The guard blocks `git -C`. Start a command with an absolute `cd` to the repo.
-- After a merge, "RESUME HERE" on `main` still reads "ready to merge". The start prompt wins. The first doc edit of the new gate writes "RESUME HERE" again.
+- A merge before the status mark leaves `main` stale. Pull request #1 did this, and the follow-up of D-31 fixed it. Steps 1 and 2 of section 4 come before the pull request opens.
 
 ## Next steps, in order
 
-1. **The end of gate 0.** The owner reads the diff. Then the owner does these git steps:
-   1. Push one empty commit to `main` (D-18).
-   2. Make the branch `gate-00-process` from that commit.
-   3. Commit the files of gate 0 on that branch, and push it.
-   4. Open the pull request, and tell the agent its number.
-
-   Then the agent and the owner do steps 6 to 8 of section 4.
-2. **Gate 1: the game design and the roadmap** (D-17). Gate file: `docs/gates/gate-01-design.md`. First action: ask OQ-2, the game style.
+1. **Gate 1: the game design and the roadmap** (D-17). Gate file: `docs/gates/gate-01-design.md`. First action: ask OQ-2, the game style.
 
 ## Facts that expire
 
@@ -183,9 +172,19 @@ A context compaction keeps the session bound to its gate.
 - `golang.org/x/term` v0.47.0 of 2026-10-09 needs `golang.org/x/sys` v0.49.0 (read 2026-10-16). The repo does not use it (D-21).
 - Claude Code 2.1.288 is on this Mac (read 2026-10-16). It reads `AGENTS.md` at the start of a session when no `CLAUDE.md` exists (D-28).
 - The Edit deny rules cover the Edit, Write, and NotebookEdit tools, a Bash redirect, and the known file commands. They do not cover a script that writes a file (Claude Code docs, read 2026-10-16).
-- The GitHub repo `nkramber/terminal-rpg` is public, and it was empty on 2026-10-16.
+- The GitHub repo `nkramber/terminal-rpg` is public. On 2026-10-16, `main` held `9969b29`, the empty root commit, and `e275872`, the squash commit of #1.
 
 ## The three most recent sessions
+
+### 2026-10-16b: gate 0, the follow-up of the status
+
+**Pull request #1 merged as `e275872`** before the status mark. Three parts stayed stale on `main`: the roadmap row of gate 0, the gate file, and "RESUME HERE".
+
+**The owner chose a follow-up pull request** (D-31) and a new rule for the gate end (D-32). The owner also approved D-22 to D-29 (D-30).
+
+**This pull request obeys D-32.** It marks gate 0 as merged before it opens, and "RESUME HERE" names gate 1.
+
+**The owner writes each commit message and each pull request text** (D-33). The pull request template is gone (D-34).
 
 ### 2026-10-16: gate 0, the process and the session rules
 

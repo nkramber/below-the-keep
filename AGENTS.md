@@ -42,7 +42,7 @@ The **agent** works for the owner.
    - Answer a syntax question with the generic form of the feature and one short generic example.
    - A review can quote the lines of the owner with `file:line` to show a problem. A review never gives a changed version of those lines.
 3. **The owner works through each finding** (D-6, D-13). The agent never writes the fix. See "The review procedure".
-4. **Git is read-only for the agent** (D-12). The agent can run `git status`, `git diff`, `git log`, `git show`, `git blame`, `git ls-remote`, `gh pr view`, `gh pr diff`, `gh pr checks`, and `gh repo view`. Each other git or gh command belongs to the owner.
+4. **Git is read-only for the agent** (D-12). The agent can run `git status`, `git diff`, `git log`, `git show`, `git blame`, `git ls-remote`, `gh pr view`, `gh pr diff`, `gh pr checks`, and `gh repo view`. Each other git or gh command belongs to the owner. The agent writes no commit message, no pull request title, and no pull request body (D-33).
 5. **The checks belong to the owner** (D-15). The owner runs `go build ./...`, `go vet ./...`, `go test ./...`, and `gofmt -l .`. The agent reads the files and the diff. The agent runs only `go doc` and `go version`, to verify a fact of the language.
 6. **Write in ASD-STE100** (D-7, D-8). This rule applies to each chat message, each doc, and each question to the owner. The rules that fail most often:
    - Max 20 words in a procedural sentence. Max 25 words in a descriptive sentence.
@@ -71,7 +71,7 @@ A session has five events. `docs/SESSION_HANDOFF.md` holds the steps of each eve
 | Start | A start prompt or a continue prompt | The start check | 1 |
 | Work | The start check passed | Plan, answer, review, and record each decision | 2 |
 | Pause | The owner stops, or a context compaction occurs | Update the hand-off, and write a continue prompt | 3 |
-| Gate end | Each success criterion holds | The completion check and the summary of the pull request | 4 |
+| Gate end | Each success criterion holds | The status mark and the completion check | 4 |
 | Transition | The owner says that the pull request merged | Write the start prompt of the next gate, then stop | 5 |
 
 ## The review procedure
@@ -150,7 +150,7 @@ Each gate has one file, `docs/gates/gate-NN-<slug>.md` (D-25). Each gate file ho
 4. **Open questions:** the `OQ-` ids of the gate.
 5. **Decisions:** the `D-` ids of the gate.
 6. **Findings:** a table with the columns ID, Severity, Location, Finding, and Status. An id has the form `F-NN-n`, for example `F-02-3`.
-7. **Status:** planned, active, ready to merge, or merged as #N.
+7. **Status:** planned, active, or merged (D-32).
 
 ## Glossary
 
@@ -185,6 +185,5 @@ Use the term of the left column. Do not use a synonym for variety.
 - `docs/gates/`: one file for each gate.
 - `docs/session-archive.md`: the older session records. The first move of a record makes this file.
 - `.claude/settings.json`: the guard.
-- `.github/pull_request_template.md`: the body of each gate pull request.
 
 Claude Code reads this file at the start of a session when the repo holds no `CLAUDE.md`. Do not add a `CLAUDE.md`. When one becomes necessary, make `@AGENTS.md` its first line.
