@@ -12,8 +12,8 @@ This file lists each gate, in order. A gate is one roadmap stage with success cr
 
 | Gate | Name | Kind | Status | Gate file |
 |---|---|---|---|---|
-| 0 | The process and the session rules | docs | active | `docs/gates/gate-00-process.md` |
+| 0 | The process and the session rules | docs | merged | `docs/gates/gate-00-process.md` |
 | 1 | The game design and the roadmap | docs | planned | `docs/gates/gate-01-design.md` |
 | 2 and later | Gate 1 sets them | code | planned | Gate 1 writes them |
 
-The Status column has four values: planned, active, ready to merge, and merged as #N.
+The Status column has three values: planned, active, and merged. The pull request of a gate writes "merged" before it opens (D-32).
