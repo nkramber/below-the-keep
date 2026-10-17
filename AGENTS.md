@@ -1,4 +1,4 @@
-# terminal-rpg - AGENTS
+# below-the-keep - AGENTS
 
 This repo holds a terminal RPG in Go. The owner writes all production code. The agent is the project manager, the tutor, and the reviewer.
 
@@ -32,7 +32,7 @@ The **agent** works for the owner.
 ## Hard rules
 
 1. **Never edit production code** (D-4, D-11). The agent writes only to these two lists of files:
-   - Docs: `AGENTS.md`, and each `.md` file under `docs/`.
+   - Docs: `AGENTS.md`, `README.md`, and each `.md` file under `docs/` (D-65).
    - Tool config: `.claude/settings.json`, the files under `.github/`, `.gitignore`, and `.editorconfig`.
 
    Each other file belongs to the owner: each `.go` file (tests too), `go.mod`, `go.sum`, the game data, and each file that is not on a list. Ask the owner before you add a file to a list. Never write an owner file through the shell: no redirect, no `sed -i`, no script, no `gofmt -w`, no `go mod tidy`, and no `go get`. The guard in `.claude/settings.json` blocks most of these actions (D-19). The guard does not block a script that writes a file, so this rule must hold without it.
@@ -43,7 +43,7 @@ The **agent** works for the owner.
    - A review can quote the lines of the owner with `file:line` to show a problem. A review never gives a changed version of those lines.
 3. **The owner works through each finding** (D-6, D-13). The agent never writes the fix. See "The review procedure".
 4. **Git is read-only for the agent** (D-12). The agent can run `git status`, `git diff`, `git log`, `git show`, `git blame`, `git ls-remote`, `gh pr view`, `gh pr diff`, `gh pr checks`, and `gh repo view`. Each other git or gh command belongs to the owner. The agent writes no commit message, no pull request title, and no pull request body (D-33).
-5. **The checks belong to the owner** (D-15). The owner runs `go build ./...`, `go vet ./...`, `go test ./...`, and `gofmt -l .`. The agent reads the files and the diff. The agent runs only `go doc` and `go version`, to verify a fact of the language.
+5. **The checks belong to the owner** (D-15, D-66). The owner runs `go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .`, and `staticcheck ./...`. The agent reads the files and the diff. The agent runs only `go doc` and `go version`, to verify a fact of the language.
 6. **Write in ASD-STE100** (D-7, D-8). This rule applies to each chat message, each doc, and each question to the owner. The rules that fail most often:
    - Max 20 words in a procedural sentence. Max 25 words in a descriptive sentence.
    - One instruction in each sentence. Write instructions in the imperative.
@@ -102,16 +102,16 @@ Do these steps for each finding, in the order of severity. The owner can select 
 
 - **Purpose:** the code does what the gate file says.
 - **Simple and readable:** clear names, a straight control flow, and no clever tricks.
-- **Small methods with helpers:** each function does one job.
+- **Small methods with helpers:** each function does one job, inside the limits of `docs/code-standards.md`.
 - **Minimal duplication:** each piece of logic has one home.
 - **Separation of concerns:** the terminal, the game rules, the render, and the data each stay in their own part.
 - **Errors:** the code checks each error, adds context, and drops no error in silence. The terminal goes back to its first state on each exit path.
 - **Entity structure:** the code follows the entity model of gate 1.
 - **Libraries:** each import comes from the standard library (D-21).
 - **Tests:** tests cover the behavior of the gate.
-- **Go idiom:** `gofmt` and `go vet` give no output, and each exported name has a doc comment.
+- **Go idiom:** `gofmt`, `go vet`, and `staticcheck` give no output, and each exported name has a doc comment.
 
-Gate 1 adds numbers to this checklist, for example a max length of a function (OQ-13).
+[`docs/code-standards.md`](docs/code-standards.md) holds the rules and the numbers behind this checklist (D-57). A review checks the code against both.
 
 ### Severity (D-22)
 
@@ -150,7 +150,7 @@ Each gate has one file, `docs/gates/gate-NN-<slug>.md` (D-25). Each gate file ho
 4. **Open questions:** the `OQ-` ids of the gate.
 5. **Decisions:** the `D-` ids of the gate.
 6. **Findings:** a table with the columns ID, Severity, Location, Finding, and Status. An id has the form `F-NN-n`, for example `F-02-3`.
-7. **Status:** planned, active, or merged (D-32).
+7. **Status:** planned, active, or merged (D-32, D-35).
 
 ## Glossary
 
@@ -178,10 +178,13 @@ Use the term of the left column. Do not use a synonym for variety.
 ## File map
 
 - `AGENTS.md`: this file. The rules of the agent.
+- `README.md`: the first page of the public repo (D-65).
 - `docs/SESSION_HANDOFF.md`: the resume point, the procedures of a session, and the two prompts.
 - `docs/decisions.md`: each decision, with its date and its source.
 - `docs/open-questions.md`: each question with no answer yet, and when to ask it.
 - `docs/roadmap.md`: the list of gates and their status.
+- `docs/game-design.md`: the style, the rules, the screen, and the content of the game (D-71).
+- `docs/code-standards.md`: the rules of the bones of the code, and the numbers of the review checklist.
 - `docs/gates/`: one file for each gate.
 - `docs/session-archive.md`: the older session records. The first move of a record makes this file.
 - `.claude/settings.json`: the guard.

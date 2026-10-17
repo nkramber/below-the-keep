@@ -6,6 +6,7 @@
       "Edit(go.sum)",
       "Edit(go.work)",
       "Edit(go.work.sum)",
+      "Edit(internal/**)",
 
       "Bash(git -C *)",
       "Bash(git add *)",
@@ -79,7 +80,8 @@
       "Bash(go tool *)",
       "Bash(go vet *)",
       "Bash(go work *)",
-      "Bash(gofmt *)"
+      "Bash(gofmt *)",
+      "Bash(staticcheck *)"
     ]
   }
 }
