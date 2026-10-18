@@ -14,7 +14,7 @@ This file lists each gate, in order. A gate is one roadmap stage with success cr
 |---|---|---|---|---|---|
 | 0 | The process and the session rules | docs | merged | The rules of the owner and the agent, and the procedures of a session. | `docs/gates/gate-00-process.md` |
 | 1 | The game design and the roadmap | docs | merged | The game design, the code standards, and the list of the code gates. | `docs/gates/gate-01-design.md` |
-| 2 | The terminal | code | planned | The game takes the terminal and gives it back in its first state on each exit path. | `docs/gates/gate-02-terminal.md` |
+| 2 | The terminal | code | active | The game takes the terminal and gives it back in its first state on each exit path. | `docs/gates/gate-02-terminal.md` |
 | 3 | The logs | code | planned | Each run writes a log file, and the logs never hold more than 10 MB. | `docs/gates/gate-03-logs.md` |
 | 4 | The screen buffer | code | planned | A grid of cells with 256 colors, and a render that writes only the changed cells. | `docs/gates/gate-04-screen.md` |
 | 5 | The input | code | planned | A key reader turns the bytes of the terminal into key events. | `docs/gates/gate-05-input.md` |

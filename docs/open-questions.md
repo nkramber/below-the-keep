@@ -8,10 +8,8 @@ Ask a question when the work reaches the point that needs the answer. Ask in bat
 
 | # | Question | Why it matters | Ask when |
 |---|---|---|---|
-| OQ-17 | Which Go version goes in the `go` line of `go.mod`? The toolchain on this Mac is 1.27.2. | It sets the language features that the code can use. | Gate 2 (D-73). |
 | OQ-20 | Is a `Makefile` or a shell script tool config, which the agent can edit, or code of the owner? | D-11 does not name these files, so they belong to the owner now. | The first gate that adds such a file. |
-| OQ-21 | Which license does the public repo use? With no license, the default copyright applies, and other people have no right to reuse the code. | The repo is public (D-29). | Gate 2, before it merges (D-73). |
-| OQ-24 | Which exit code does the game use for an error, and which for a panic? D-55 says only "a code that is not 0". | A manual check of gate 2 reads the code with `echo $?`. | Gate 2. |
+| OQ-25 | How does `main` handle a bad flag? The default flag set uses `ExitOnError` (`flag/flag.go`, Go 1.27.2, read 2026-10-18). So a bad flag makes the `flag` package call `os.Exit(2)`. | D-56 says that only `main` calls `os.Exit`. D-77 gives no code for a bad flag. | Gate 3, before the `-debug` flag. |
 
 ## Asked, no answer yet
 
@@ -37,7 +35,10 @@ No question waits now.
 | OQ-14 | What is the test policy? | D-59: tests for the logic, table-driven tests for many cases, a manual checklist for the terminal, and no coverage target. |
 | OQ-15 | Do we use a dev tool outside the Go toolchain? | D-66: staticcheck, installed with `go install ...@latest`, outside `go.mod`. It is the fifth check. |
 | OQ-16 | Does a GitHub Actions workflow run the checks on each pull request? | D-64: no CI. The owner runs the checks on the Mac before each commit. |
+| OQ-17 | Which Go version goes in the `go` line of `go.mod`? | D-74: `go 1.27.2`, the line that `go mod init` writes. |
 | OQ-18 | How does the game write logs? | D-60, D-62, and D-63: always on, one file for each run in `~/Library/Caches/below-the-keep/`, max 10 MB in total, text at the info level, and a `-debug` flag. |
 | OQ-19 | What is the minimum size of the terminal, and what does the game do on a resize? | D-47: the whole map is visible, with a fixed size. A window that is too small pauses the game. |
+| OQ-21 | Which license does the public repo use? | D-75: the MIT license. D-76: the owner writes the file `LICENSE`. |
 | OQ-22 | Who writes the `README.md`, and when? | D-65: the agent, in gate 1. `README.md` joins the docs list of hard rule 1. |
 | OQ-23 | What is the name of the game? | D-42: "Below the Keep". The repo, the folder, and the module path use `below-the-keep`. |
+| OQ-24 | Which exit code does the game use for an error, and which for a panic? | D-77: 1 for an error, and 70 (`EX_SOFTWARE`) for a panic. |

@@ -21,7 +21,7 @@ An item with a `P-` id is a proposal of the agent. The owner accepted this file 
 
 | Package | Its job |
 |---|---|
-| `internal/term` | The raw mode, the alternate screen, the window size, the resize signal, and the restore. The only package with `syscall` and `unsafe`. |
+| `internal/terminal` | The raw mode, the alternate screen, the window size, the resize signal, and the restore. The only package with `syscall` and `unsafe`. |
 | `internal/screen` | A grid of cells: a glyph, a foreground, and a background. A render that writes only the changed cells to an `io.Writer`. |
 | `internal/input` | It reads bytes from an `io.Reader` and parses them into key events. |
 | `internal/content` | The JSON files, the `embed` line, the loader, the kinds of monsters and items, the messages, and the glyph list. |
@@ -35,7 +35,7 @@ An item with a `P-` id is a proposal of the agent. The owner accepted this file 
 
 | Package | It can import |
 |---|---|
-| `term`, `screen`, `input`, `content`, `logs` | no package of the project |
+| `terminal`, `screen`, `input`, `content`, `logs` | no package of the project |
 | `world` | `content` |
 | `cave` | `world`, `content` |
 | `rules` | `world`, `content` |
@@ -64,7 +64,7 @@ So the rules never know the terminal, and the render never changes the world.
 
 The reasons: a `recover` works only for a panic on the same goroutine (Go spec, "Handling panics"). `os.Exit` runs no deferred function (`go doc os.Exit`).
 
-**P-31. The name and the text of the error type.** The type of each package has the name `Error`, so a caller reads `term.Error` or `content.Error`. Its text has the form "package: operation: cause".
+**P-31. The name and the text of the error type.** The type of each package has the name `Error`, so a caller reads `terminal.Error` or `content.Error`. Its text has the form "package: operation: cause". The fields start with a small letter (D-84). The cause must not be nil, and the doc comment of the type says so (D-85). Each method of the type has a pointer receiver, and a failing function returns `&Error{...}` (D-86).
 
 **P-32. One extra goroutine.** The game has one goroutine next to `main`: the key reader of `input`. The resize signal needs no goroutine, because package `signal` relays it to a channel (`go doc os/signal.Notify`). A new goroutine needs an owner decision.
 

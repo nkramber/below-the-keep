@@ -12,7 +12,7 @@ In:
 - The title screen of P-26, an empty play screen, and the quit of P-25 with a yes or no question.
 - The pause for a small window (D-47, P-20).
 - The signals `SIGTERM` and `SIGHUP`: the game ends through the normal exit path.
-- `main.go`: it connects `term`, `logs`, `screen`, `input`, and `game`.
+- `main.go`: it connects `terminal`, `logs`, `screen`, `input`, and `game`.
 
 Out:
 

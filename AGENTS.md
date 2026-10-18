@@ -33,7 +33,7 @@ The **agent** works for the owner.
 
 1. **Never edit production code** (D-4, D-11). The agent writes only to these two lists of files:
    - Docs: `AGENTS.md`, `README.md`, and each `.md` file under `docs/` (D-65).
-   - Tool config: `.claude/settings.json`, the files under `.github/`, `.gitignore`, and `.editorconfig`.
+   - Tool config: `.claude/settings.json`, the files under `.claude/skills/`, `CLAUDE.md`, the files under `.github/`, `.gitignore`, and `.editorconfig`.
 
    Each other file belongs to the owner: each `.go` file (tests too), `go.mod`, `go.sum`, the game data, and each file that is not on a list. Ask the owner before you add a file to a list. Never write an owner file through the shell: no redirect, no `sed -i`, no script, no `gofmt -w`, no `go mod tidy`, and no `go get`. The guard in `.claude/settings.json` blocks most of these actions (D-19). The guard does not block a script that writes a file, so this rule must hold without it.
 2. **No code example unless the owner asks for one** (D-4). When the owner asks, obey these rules:
@@ -68,7 +68,7 @@ A session has five events. `docs/SESSION_HANDOFF.md` holds the steps of each eve
 
 | Event | Trigger | The agent does this | Section of the hand-off |
 |---|---|---|---|
-| Start | A start prompt or a continue prompt | The start check | 1 |
+| Start | A start prompt, a continue prompt, or the words `Resume gate <NN>` (D-88) | The start check | 1 |
 | Work | The start check passed | Plan, answer, review, and record each decision | 2 |
 | Pause | The owner stops, or a context compaction occurs | Update the hand-off, and write a continue prompt | 3 |
 | Gate end | Each success criterion holds | The status mark and the completion check | 4 |
@@ -188,5 +188,8 @@ Use the term of the left column. Do not use a synonym for variety.
 - `docs/gates/`: one file for each gate.
 - `docs/session-archive.md`: the older session records. The first move of a record makes this file.
 - `.claude/settings.json`: the guard.
+- `.claude/skills/`: the skills of the agent (D-82).
+- `go-practice/`: the practice module of the owner, with its own `go.mod`. It is not part of the game (D-87).
+- `CLAUDE.md`: the first line is `@AGENTS.md`. It records the skills (D-82).
 
-Claude Code reads this file at the start of a session when the repo holds no `CLAUDE.md`. Do not add a `CLAUDE.md`. When one becomes necessary, make `@AGENTS.md` its first line.
+Claude Code reads this file at the start of a session. `CLAUDE.md` has `@AGENTS.md` as its first line (D-82).

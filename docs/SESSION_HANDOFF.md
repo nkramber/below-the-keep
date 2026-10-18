@@ -4,21 +4,45 @@
 
 Update this file inside the pull request of the gate, before the owner merges it. Never write a merge commit, a pull request number, or a check result that you did not read.
 
-## RESUME HERE (2026-10-16, gate 2 next)
+## RESUME HERE (2026-10-18, gate 2 active, second pause)
 
-**Gate 1 merged.** It carries `docs/game-design.md` (D-71), `docs/code-standards.md` (D-72), `README.md` (D-65), and 13 gate files (D-73). No code exists.
+The owner resumes with the words `Resume gate 2` (D-88). Do the start check of section 1. Take the state from this section.
 
-**Gate 2 comes next: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`.
+**Where the gate stands.** Gate 2 is active: the terminal. Branch: `gate-02-terminal`. Head at the pause: `bd8f305`. Gate file: `docs/gates/gate-02-terminal.md`. The work of this gate is not committed at the pause. The owner commits and pushes the branch before a move to another machine (D-12). After the pull, the head can differ from `bd8f305`. Tell the owner, and go on.
 
-- Branch: `gate-02-terminal`. The owner makes it from `main` (D-12).
-- Open questions: OQ-17 (the `go` line), OQ-21 (the license), and OQ-24 (the exit codes).
+**The finished work.**
 
-**The checks before the work.**
+- Decisions D-74 to D-88 are recorded. The ones for the code: the package is `terminal` (D-79), the fields of `Error` start with a small letter (D-84), the cause is never nil (D-85), and each `Error` method has a pointer receiver (D-86).
+- `go.mod` holds the module `github.com/nkramber/below-the-keep` and the line `go 1.27.2`.
+- `internal/terminal/doc.go` holds the package comment.
+- `internal/terminal/error.go` is complete and reviewed. It holds the constant `packageName`, the struct `Error` with the fields `operation` and `cause`, and the methods `Error()` and `Unwrap()`. The owner ran `go build ./...`, `go vet ./...`, and `gofmt -l .` in the repo. They printed nothing (read 2026-10-18). The owner did not run `go test ./...` or `staticcheck ./...` yet.
+- `LICENSE` and `.gitignore` are written. The folder `go-practice/` is in the repo (D-87).
 
-1. The owner moved the local folder from `/Volumes/SSD-1TB/terminal-rpg` to `/Volumes/SSD-1TB/below-the-keep` (D-42). The session runs in the new folder.
-2. The owner runs `/permissions` and finds the 78 deny rules of the guard (D-19, D-61, D-70).
+**The open work.** The owner writes the code of the gate, in this order:
 
-**Next action.** Do the start check of section 1. Then ask OQ-17, OQ-21, and OQ-24.
+1. `internal/terminal/error_test.go` holds only `package terminal`. Write two tests. The first shows that `Error()` gives the exact text `terminal: operation: cause`, with the expected text typed by hand. The second shows that `errors.Is` finds the cause.
+2. The other parts of `internal/terminal`: the raw mode, the alternate screen, the cursor, the window size, and the resize events.
+3. The skeleton of `main.go`, with the demo.
+4. The five checks and the manual checks of the gate file.
+
+**The tutorials in progress.** The skill `tutorial` (D-83) governs them. The owner says "Review" to ask for a review. The agent sends one part in each message.
+
+- Functions and methods: done. Parts 1 to 5 are reviewed. The owner answered the questions on value and pointer receivers and chose pointers (D-86).
+- Writing tests, in `go-practice/`: Parts 1 and 2 are done and reviewed. Part 3 (a table of cases) is sent. The owner has not asked for the review of Part 3.
+  - The plan: Part 4 is a test for an error. Part 5 is a test for the cause, with `errors.Is` and `Unwrap`. Part 3 already holds a case that expects an error, so change Part 4 to fit the work.
+  - At the pause, `go-practice/main_test.go` holds one `TestDivide` with one case. It checks the answer and the error with `||`, and the message labels the error. It is not a table yet.
+  - The owner then writes the two real tests in `error_test.go`.
+
+**Open findings:** none. The findings of the tutorial reviews are fixed. **Open questions of this gate:** none. OQ-25 waits for gate 3.
+
+**Notes for the next session:**
+
+- Before the first function that returns `&Error{...}`, tell the owner to read the question "Why is my nil error value not equal to nil?" at https://go.dev/doc/faq#nil_error (D-86).
+- With a pointer error type, the target of `errors.As` is the address of a variable of type `*terminal.Error`. Explain it when the owner reaches that code.
+- The owner asks many questions about Go words. Use the skill `explain-go`. The comparison of the photocopy and the address slip works for receivers.
+- The owner runs `go test -count=1 ./...` in `go-practice/`. The root pattern `./...` skips that folder.
+
+**Next action.** Do the start check of section 1. Read `go-practice/main_test.go`. Tell the owner the state in max five lines. Then wait for "Review" on Part 3, or for a question. When Part 3 passes, send Part 4.
 
 ## The procedures of a session
 
@@ -33,7 +57,7 @@ Do these steps before the first edit:
 5. A fork, a subagent, or a summary of another session is not a clean session. Stop for these too.
 6. Run `git status -sb` and `git log --oneline -3`. Record the branch and the head.
 7. When the branch is `main`, ask the owner to make the gate branch. Edit no file on `main`.
-8. When the branch does not agree with the prompt, tell the owner, and stop.
+8. When the branch does not agree with the prompt, tell the owner, and stop. For the words `Resume gate <NN>` (see "The short resume" in section 3), the branch comes from "RESUME HERE". A different head is not a stop. Tell the owner.
 9. When the gate file shows "planned", write "active" in the gate file and in the roadmap row (D-35). This is the first edit of the gate.
 10. Read the open findings and the open questions of the gate file.
 11. Tell the owner the state in max five lines. Then do the first action of the prompt.
@@ -78,6 +102,8 @@ Open findings: <each F- id with its title, or `none`>.
 Open questions of this gate: <each OQ- id with its subject, or `none`>.
 First action: <the next concrete action>.
 ```
+
+**The short resume (D-88).** The owner can write only `Resume gate <NN>`. This works only when "RESUME HERE" holds the exact state. So the pause (steps 1 to 3 above) must record the finished work, the open work, the tutorials in progress, the open findings, the open questions, and the next action. After a pause, "RESUME HERE" must let a new session start with no other input. Write no path of the repo on one machine in any file. Use paths from the root of the repo.
 
 ### 4. The gate end
 
@@ -163,13 +189,14 @@ A context compaction keeps the session bound to its gate.
 - The guard denies a whole compound command when one part of it matches a rule. For example, a chain with `git branch --show-current` fails.
 - Never make a `.go` file, also not as a probe of the guard.
 - The guard blocks `git branch`. Use `git status -sb` to read the branch.
-- The guard blocks `git -C`. Start a command with an absolute `cd` to the repo.
+- The guard blocks `git -C`. Start a command with an absolute `cd` to the root of the repo. Read the root with `pwd` at the start of a session. The root differs on each machine, so write it in no file.
+- The guard blocks `go env`, because hard rule 5 allows only `go doc` and `go version`. For the module cache, use the default path `~/go/pkg/mod`.
 - The view of the owner shows the text before a tool call only as a short summary. Put each full answer in the last message of a turn, after the last tool call. Put each fact that a question needs in the `AskUserQuestion` box: in the question, an option, or a preview.
 - A merge before the status mark leaves `main` stale. Pull request #1 did this, and the follow-up of D-31 fixed it. Steps 1 and 2 of section 4 come before the pull request opens.
 
 ## Next steps, in order
 
-1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then ask OQ-17, OQ-21, and OQ-24.
+1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then wait for "Review" on Part 3 of the tutorial on tests (see "RESUME HERE").
 2. **Gates 3 to 14,** in the order of `docs/roadmap.md`. The first session of each gate reviews the success criteria of its gate file with the owner.
 
 ## Facts that expire
@@ -180,11 +207,36 @@ A context compaction keeps the session bound to its gate.
 - Claude Code 2.1.288 is on this Mac (read 2026-10-16). It reads `AGENTS.md` at the start of a session when no `CLAUDE.md` exists (D-28).
 - The Edit deny rules cover the Edit, Write, and NotebookEdit tools, a Bash redirect, and the known file commands. They do not cover a script that writes a file (Claude Code docs, read 2026-10-16).
 - The GitHub repo `nkramber/below-the-keep` is public (read 2026-10-16 with `gh repo view`). Its old name was `terminal-rpg` (D-42). Per the GitHub docs, the old URL redirects to the new one, until a new repo takes the old name. On 2026-10-16, `main` held `9969b29` (the empty root commit), `e275872` (#1), and `b2d2b15` (#2).
-- The `origin` remote of the local clone is `https://github.com/nkramber/below-the-keep.git` (read 2026-10-16 in `.git/config`). The local folder was still `/Volumes/SSD-1TB/terminal-rpg` at the end of gate 1. The owner moves it after the merge of gate 1 (D-42).
-- The guard holds 78 deny rules: 6 Edit, 30 git, 25 gh, 16 go, and 1 staticcheck (`/permissions`, read by the owner on 2026-10-16).
+- The `origin` remote of the local clone is `https://github.com/nkramber/below-the-keep.git` (read 2026-10-16 in `.git/config`). The local folder has the name `below-the-keep` (D-42). Its place on disk differs on each machine (D-88).
+- The guard holds 78 deny rules: 6 Edit, 30 git, 25 gh, 16 go, and 1 staticcheck (`/permissions`, read by the owner on 2026-10-16 and on 2026-10-18).
+- On Go 1.27.2, `go mod init` writes the version of the local toolchain in the `go` line (`cmd/go/internal/modload/init.go`, read 2026-10-18).
+- A directory that holds a `go.mod` is skipped by `./...` of the parent module (`go help packages`, read 2026-10-18). So `go-practice/` is outside the five checks of the root, except `gofmt -l .` (D-87).
+- The Go FAQ (read 2026-10-18) advises a value receiver for a small struct that a method only reads. The Code Review Comments say "when in doubt, use a pointer". The owner chose pointers (D-86).
 - Python 3 on this Mac holds the Unicode 13.0 data in `unicodedata`. It gives the width class of a glyph (read 2026-10-16).
 
 ## The three most recent sessions
+
+### 2026-10-18b: gate 2, the error type and the tutorials
+
+**The owner wrote `internal/terminal/error.go`** with the help of a tutorial and four reviews. The package is `terminal` (D-79). The fields are private (D-84), the cause is never nil (D-85), and the methods have pointer receivers (D-86). The review findings are all fixed.
+
+**The agent made two skills** (D-83). The skill `tutorial` gives one part in each message, and it reviews the work of a part when the owner says "Review". The skill `explain-go` (D-82) answers questions about Go words for a reader who never programmed.
+
+**Two tutorials ran.** Functions and methods are done. Writing tests is at Part 3, in `go-practice/` (D-87). The owner chose pointer receivers for the practice of pointers, and the agent noted the FAQ advice for a small read-only struct.
+
+**The owner set two process rules** (D-87, D-88). The practice folder lives in the repo. The words `Resume gate <NN>` start a session, and no file holds a path of one machine.
+
+### 2026-10-18: gate 2, the start and the open questions
+
+**The start check passed** on the branch `gate-02-terminal` at `bd8f305`. Gate 2 is now "active" (D-35).
+
+**The owner answered three questions** (D-74 to D-77). The `go` line is `go 1.27.2`. The license is MIT, and the owner writes `LICENSE`. The exit codes are 1 for an error and 70 for a panic.
+
+**The owner kept the success criteria** and added one for `LICENSE` (D-78). The owner wrote `LICENSE`, and the agent compared it with an MIT copy in the Go tree. The agent wrote `.gitignore`.
+
+**A new question waits for gate 3** (OQ-25). The default flag set calls `os.Exit(2)` on a bad flag, but D-56 lets only `main` call `os.Exit`.
+
+**The guard blocked `go env`.** Hard rule 5 does not allow it, so the guard is correct. The hand-off now has a trap for it.
 
 ### 2026-10-16c: gate 1, the game design and the roadmap
 
@@ -198,28 +250,6 @@ A context compaction keeps the session bound to its gate.
 
 **The process changed** (D-35). The start check now sets a gate to "active". The owner renamed the repo to `below-the-keep` (D-42). The view of the owner shows the text before a tool call only as a summary, so the hand-off now has a trap for it.
 
-### 2026-10-16b: gate 0, the follow-up of the status
-
-**Pull request #1 merged as `e275872`** before the status mark. Three parts stayed stale on `main`: the roadmap row of gate 0, the gate file, and "RESUME HERE".
-
-**The owner chose a follow-up pull request** (D-31) and a new rule for the gate end (D-32). The owner also approved D-22 to D-29 (D-30).
-
-**This pull request obeys D-32.** It marks gate 0 as merged before it opens, and "RESUME HERE" names gate 1.
-
-**The owner writes each commit message and each pull request text** (D-33). The pull request template is gone (D-34).
-
-### 2026-10-16: gate 0, the process and the session rules
-
-**The owner set the frame** (D-1 to D-10). The owner gave the goals in order, the language, and the number one rule. The owner also set ASD-STE100 in chat, one gate in each pull request, and no Gitar and no second-provider review.
-
-**The agent read decktome.** It read `AGENTS.md`, `CLAUDE.md`, `docs/SESSION-HANDOFF.md`, the `one-pr-one-session` skill, the two question registers, `docs/decisions.md`, the pull request template, and the `ste-writing` skill.
-
-**This repo keeps these parts of decktome:** the start check, the clean session, the resume section, the facts that expire, the three session records, the decision register, and the transitional prompt. This repo calls that prompt the start prompt.
-
-**This repo changes these parts:** the owner writes the code and does each git step. The agent reviews in place of Gitar and Codex. A gate can use many sessions, and a pause ends with a continue prompt. No skill, hook, or `make` target enforces the rules. The guard and the agent do.
-
-**The owner answered 13 questions** (D-8, D-11 to D-21). The agent proposed eight rules for sign-off at the merge (D-22 to D-29).
-
 ## The archive
 
-`docs/session-archive.md` does not exist yet. The fourth session record makes it (D-27).
+`docs/session-archive.md` holds the older session records, word for word (D-27). The record of 2026-10-16, gate 0, moved there on 2026-10-18. The record of 2026-10-16b, gate 0, moved there on 2026-10-18 too.

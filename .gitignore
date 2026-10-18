@@ -1,0 +1,5 @@
+# The binary that `go build` writes at the root of the module (D-57).
+/below-the-keep
+
+# The binary that `go build` writes in the practice module (D-87).
+/go-practice/practice
