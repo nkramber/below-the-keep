@@ -4,11 +4,11 @@
 
 Update this file inside the pull request of the gate, before the owner merges it. Never write a merge commit, a pull request number, or a check result that you did not read.
 
-## RESUME HERE (2026-10-18, gate 2 active, second pause)
+## RESUME HERE (2026-10-18, gate 2 active, third pause)
 
 The owner resumes with the words `Resume gate 2` (D-88). Do the start check of section 1. Take the state from this section.
 
-**Where the gate stands.** Gate 2 is active: the terminal. Branch: `gate-02-terminal`. Head at the pause: `bd8f305`. Gate file: `docs/gates/gate-02-terminal.md`. The work of this gate is not committed at the pause. The owner commits and pushes the branch before a move to another machine (D-12). After the pull, the head can differ from `bd8f305`. Tell the owner, and go on.
+**Where the gate stands.** Gate 2 is active: the terminal. Branch: `gate-02-terminal`. Head at the pause: `1a5c0ae` ("mid gate-2"). Gate file: `docs/gates/gate-02-terminal.md`. At the pause, `go-practice/main_test.go` has changes that the owner did not commit, and the doc files of this pause are not committed too. The owner commits and pushes the branch before a move to another machine (D-12). After the pull, the head can differ from `1a5c0ae`. Tell the owner, and go on.
 
 **The finished work.**
 
@@ -28,10 +28,13 @@ The owner resumes with the words `Resume gate 2` (D-88). Do the start check of s
 **The tutorials in progress.** The skill `tutorial` (D-83) governs them. The owner says "Review" to ask for a review. The agent sends one part in each message.
 
 - Functions and methods: done. Parts 1 to 5 are reviewed. The owner answered the questions on value and pointer receivers and chose pointers (D-86).
-- Writing tests, in `go-practice/`: Parts 1 and 2 are done and reviewed. Part 3 (a table of cases) is sent. The owner has not asked for the review of Part 3.
-  - The plan: Part 4 is a test for an error. Part 5 is a test for the cause, with `errors.Is` and `Unwrap`. Part 3 already holds a case that expects an error, so change Part 4 to fit the work.
-  - At the pause, `go-practice/main_test.go` holds one `TestDivide` with one case. It checks the answer and the error with `||`, and the message labels the error. It is not a table yet.
+- Writing tests, in `go-practice/`: Parts 1 to 4 are done and reviewed. **Part 5 is sent. The owner has not started it, and has not asked for a review.**
+  - Part 3 (a table of cases) is done. `TestDivide` has a table with the fields `nums`, `want`, and `errorText`. An empty `errorText` means "no error" (the owner chose this path). Three separate `if` statements check the answer, the missing error, and the text of the error. Each has its own message.
+  - Part 4 (the text of an error) is done. The owner showed a mutation check: a changed letter in the message made the test fail with both texts, and the restore made it pass. `go vet ./...` printed nothing (read 2026-10-18). Reviews of Parts 3 and 4 found six findings, and all are fixed.
+  - Part 5 (a test for the cause with `errors.Is`) is the open part. The steps: (1) make a named error value in `go-practice/main.go` with `errors.New`. (2) Make `divide` wrap it with `fmt.Errorf` and the verb `%w` for the zero case. (3) Write `TestDivideCause` in `main_test.go`, with `errors.Is`. (4) Decide what `TestDivide` must change, because its exact text will change. (5) Do the mutation check: change `%w` to `%v`, see the test fail, and restore `%w`. The check: `go vet ./...` prints nothing, `go test -count=1 -v ./...` passes, and the owner pastes the output of the mutation check.
+  - Do not re-send Part 5 in full when the owner resumes. Tell the owner that Part 5 waits, and answer the questions.
   - The owner then writes the two real tests in `error_test.go`.
+- The owner asked for the example of a struct and an anonymous struct type (the skill `explain-go`). The agent gave it. The owner had trouble with "shape of a case" and with a wrong pointer of the agent to line 24 of the test. Say plainly what each line does, and check a claim about a line against the file before you send it.
 
 **Open findings:** none. The findings of the tutorial reviews are fixed. **Open questions of this gate:** none. OQ-25 waits for gate 3.
 
@@ -42,7 +45,7 @@ The owner resumes with the words `Resume gate 2` (D-88). Do the start check of s
 - The owner asks many questions about Go words. Use the skill `explain-go`. The comparison of the photocopy and the address slip works for receivers.
 - The owner runs `go test -count=1 ./...` in `go-practice/`. The root pattern `./...` skips that folder.
 
-**Next action.** Do the start check of section 1. Read `go-practice/main_test.go`. Tell the owner the state in max five lines. Then wait for "Review" on Part 3, or for a question. When Part 3 passes, send Part 4.
+**Next action.** Do the start check of section 1. Read `go-practice/main_test.go` and `go-practice/main.go`. Tell the owner the state in max five lines. Then wait for "Review" on Part 5, or for a question. When Part 5 passes, the tutorial on tests is done. Then the owner writes the two tests in `internal/terminal/error_test.go`, and the agent reviews them.
 
 ## The procedures of a session
 
@@ -196,7 +199,7 @@ A context compaction keeps the session bound to its gate.
 
 ## Next steps, in order
 
-1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then wait for "Review" on Part 3 of the tutorial on tests (see "RESUME HERE").
+1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then wait for "Review" on Part 5 of the tutorial on tests (see "RESUME HERE").
 2. **Gates 3 to 14,** in the order of `docs/roadmap.md`. The first session of each gate reviews the success criteria of its gate file with the owner.
 
 ## Facts that expire
@@ -215,6 +218,18 @@ A context compaction keeps the session bound to its gate.
 - Python 3 on this Mac holds the Unicode 13.0 data in `unicodedata`. It gives the width class of a glyph (read 2026-10-16).
 
 ## The three most recent sessions
+
+### 2026-10-18c: gate 2, the tutorial on tests, Parts 3 and 4
+
+**The owner finished Parts 3 and 4** in `go-practice/`. The test is now a table, with separate checks for the answer, the missing error, and the text of the error. The owner proved the checks with a mutation: a wrong letter in the message made the test fail.
+
+**Six findings came from the reviews,** and all are fixed. The main ones: a long `||` condition that passed on wrong code, and a format string with the wrong number of verbs.
+
+**The agent made one mistake.** It told the owner that `err` was not `nil` inside a check that tests `err == nil`. The owner caught it. The agent then gave the correct table of four cases.
+
+**Part 5 is sent and not started.** The agent also gave the explanation and the example of a struct, on request.
+
+**The session paused** with this record. `go-practice/main_test.go` was not committed at the pause.
 
 ### 2026-10-18b: gate 2, the error type and the tutorials
 
@@ -238,18 +253,6 @@ A context compaction keeps the session bound to its gate.
 
 **The guard blocked `go env`.** Hard rule 5 does not allow it, so the guard is correct. The hand-off now has a trap for it.
 
-### 2026-10-16c: gate 1, the game design and the roadmap
-
-**The owner chose the game** (D-36 to D-42). It is a classic roguelike with the name "Below the Keep", in a classic fantasy world with a light tone. A run has 5 floors, items, levels, and a win at the artifact.
-
-**The owner set the screen, the content, and the map** (D-43 to D-53, D-67 to D-69). The game shows the whole floor, with 256 colors and a fixed glyph list. The floors are caves from a seeded map source, and the content is in JSON files.
-
-**The owner set the bones** (D-54 to D-66, D-70). The entity model uses plain types, and each package has an error type. `main` handles each error and each panic. The limits are 40, 4, 3, and 400. Staticcheck is the fifth check, and the project has no CI.
-
-**The owner accepted four docs:** `docs/game-design.md` (D-71), `docs/code-standards.md` (D-72), the roadmap with 13 code gates (D-73), and `README.md` (D-65).
-
-**The process changed** (D-35). The start check now sets a gate to "active". The owner renamed the repo to `below-the-keep` (D-42). The view of the owner shows the text before a tool call only as a summary, so the hand-off now has a trap for it.
-
 ## The archive
 
-`docs/session-archive.md` holds the older session records, word for word (D-27). The record of 2026-10-16, gate 0, moved there on 2026-10-18. The record of 2026-10-16b, gate 0, moved there on 2026-10-18 too.
+`docs/session-archive.md` holds the older session records, word for word (D-27). The records of 2026-10-16 and 2026-10-16b, both gate 0, moved there on 2026-10-18. The record of 2026-10-16c, gate 1, moved there on 2026-10-18 too.

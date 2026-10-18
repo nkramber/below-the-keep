@@ -2,6 +2,18 @@
 
 This file holds the session records that are older than the three records in `docs/SESSION_HANDOFF.md` (D-27). Each record moves here word for word. The newest record is at the top.
 
+### 2026-10-16c: gate 1, the game design and the roadmap
+
+**The owner chose the game** (D-36 to D-42). It is a classic roguelike with the name "Below the Keep", in a classic fantasy world with a light tone. A run has 5 floors, items, levels, and a win at the artifact.
+
+**The owner set the screen, the content, and the map** (D-43 to D-53, D-67 to D-69). The game shows the whole floor, with 256 colors and a fixed glyph list. The floors are caves from a seeded map source, and the content is in JSON files.
+
+**The owner set the bones** (D-54 to D-66, D-70). The entity model uses plain types, and each package has an error type. `main` handles each error and each panic. The limits are 40, 4, 3, and 400. Staticcheck is the fifth check, and the project has no CI.
+
+**The owner accepted four docs:** `docs/game-design.md` (D-71), `docs/code-standards.md` (D-72), the roadmap with 13 code gates (D-73), and `README.md` (D-65).
+
+**The process changed** (D-35). The start check now sets a gate to "active". The owner renamed the repo to `below-the-keep` (D-42). The view of the owner shows the text before a tool call only as a summary, so the hand-off now has a trap for it.
+
 ### 2026-10-16b: gate 0, the follow-up of the status
 
 **Pull request #1 merged as `e275872`** before the status mark. Three parts stayed stale on `main`: the roadmap row of gate 0, the gate file, and "RESUME HERE".
