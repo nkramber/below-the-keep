@@ -133,7 +133,7 @@ The owner installs staticcheck with `go install honnef.co/go/tools/cmd/staticche
 
 ## 11. The comments
 
-- Each exported name has a doc comment.
+- An exported name needs a doc comment only when the name does not state its whole job (D-89). A comment that repeats the name is noise. A rule that a caller must know needs a comment, for example the rule that a cause is never nil (D-85).
 
 **P-39. The package comment.** Each package has one package comment. It gives the job of the package in one or two sentences.
 

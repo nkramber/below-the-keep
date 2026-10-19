@@ -35,3 +35,15 @@ This file holds the session records that are older than the three records in `do
 **This repo changes these parts:** the owner writes the code and does each git step. The agent reviews in place of Gitar and Codex. A gate can use many sessions, and a pause ends with a continue prompt. No skill, hook, or `make` target enforces the rules. The guard and the agent do.
 
 **The owner answered 13 questions** (D-8, D-11 to D-21). The agent proposed eight rules for sign-off at the merge (D-22 to D-29).
+
+### 2026-10-18: gate 2, the start and the open questions
+
+**The start check passed** on the branch `gate-02-terminal` at `bd8f305`. Gate 2 is now "active" (D-35).
+
+**The owner answered three questions** (D-74 to D-77). The `go` line is `go 1.27.2`. The license is MIT, and the owner writes `LICENSE`. The exit codes are 1 for an error and 70 for a panic.
+
+**The owner kept the success criteria** and added one for `LICENSE` (D-78). The owner wrote `LICENSE`, and the agent compared it with an MIT copy in the Go tree. The agent wrote `.gitignore`.
+
+**A new question waits for gate 3** (OQ-25). The default flag set calls `os.Exit(2)` on a bad flag, but D-56 lets only `main` call `os.Exit`.
+
+**The guard blocked `go env`.** Hard rule 5 does not allow it, so the guard is correct. The hand-off now has a trap for it.

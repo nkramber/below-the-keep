@@ -109,7 +109,7 @@ Do these steps for each finding, in the order of severity. The owner can select 
 - **Entity structure:** the code follows the entity model of gate 1.
 - **Libraries:** each import comes from the standard library (D-21).
 - **Tests:** tests cover the behavior of the gate.
-- **Go idiom:** `gofmt`, `go vet`, and `staticcheck` give no output, and each exported name has a doc comment.
+- **Go idiom:** `gofmt`, `go vet`, and `staticcheck` give no output, and each exported name that does not state its whole job has a doc comment (D-89).
 
 [`docs/code-standards.md`](docs/code-standards.md) holds the rules and the numbers behind this checklist (D-57). A review checks the code against both.
 

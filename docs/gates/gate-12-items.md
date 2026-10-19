@@ -32,7 +32,7 @@ The first session of this gate reviews these criteria with the owner.
 - [ ] A test: a fixed seed gives a fixed list of drops.
 - [ ] A manual check: a letter choice works, and Esc cancels it.
 - [ ] The owner ran the five checks of hard rule 5, and the output shows no failure.
-- [ ] The limits of `docs/code-standards.md` hold, and each exported name has a doc comment.
+- [ ] The limits of `docs/code-standards.md` hold, and each exported name that does not state its whole job has a doc comment (D-89).
 
 ## Open questions
 

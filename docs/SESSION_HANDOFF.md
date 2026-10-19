@@ -4,48 +4,54 @@
 
 Update this file inside the pull request of the gate, before the owner merges it. Never write a merge commit, a pull request number, or a check result that you did not read.
 
-## RESUME HERE (2026-10-18, gate 2 active, third pause)
+## RESUME HERE (2026-10-18, gate 2 active, fourth pause)
 
 The owner resumes with the words `Resume gate 2` (D-88). Do the start check of section 1. Take the state from this section.
 
-**Where the gate stands.** Gate 2 is active: the terminal. Branch: `gate-02-terminal`. Head at the pause: `1a5c0ae` ("mid gate-2"). Gate file: `docs/gates/gate-02-terminal.md`. At the pause, `go-practice/main_test.go` has changes that the owner did not commit, and the doc files of this pause are not committed too. The owner commits and pushes the branch before a move to another machine (D-12). After the pull, the head can differ from `1a5c0ae`. Tell the owner, and go on.
+**Where the gate stands.** Gate 2 is active: the terminal. Branch: `gate-02-terminal`. Head at the pause: `5187f86` ("mid gate 2"). Gate file: `docs/gates/gate-02-terminal.md`. At the pause, the tests in `internal/terminal/error_test.go`, the decision D-89, and the doc changes of D-89 are not committed. The owner commits and pushes the branch before a move to another machine (D-12). After the pull, the head can differ from `5187f86`. Tell the owner, and go on.
 
 **The finished work.**
 
-- Decisions D-74 to D-88 are recorded. The ones for the code: the package is `terminal` (D-79), the fields of `Error` start with a small letter (D-84), the cause is never nil (D-85), and each `Error` method has a pointer receiver (D-86).
+- Decisions D-74 to D-89 are recorded. The ones for the code: the package is `terminal` (D-79), the fields of `Error` start with a small letter (D-84), the cause is never nil (D-85), and each `Error` method has a pointer receiver (D-86). D-89: an exported name needs a doc comment only when the name does not state its whole job.
 - `go.mod` holds the module `github.com/nkramber/below-the-keep` and the line `go 1.27.2`.
 - `internal/terminal/doc.go` holds the package comment.
-- `internal/terminal/error.go` is complete and reviewed. It holds the constant `packageName`, the struct `Error` with the fields `operation` and `cause`, and the methods `Error()` and `Unwrap()`. The owner ran `go build ./...`, `go vet ./...`, and `gofmt -l .` in the repo. They printed nothing (read 2026-10-18). The owner did not run `go test ./...` or `staticcheck ./...` yet.
+- `internal/terminal/error.go` is complete and reviewed. It holds the constant `packageName`, the struct `Error` with the fields `operation` and `cause`, and the methods `Error()` and `Unwrap()`.
+- `internal/terminal/error_test.go` is complete and reviewed. `TestError` checks the exact text `terminal: testOperation: test error for cause`. `TestUnwrap` checks that `errors.Is` finds the cause. The owner did a mutation check for each test, and both failed as they must (read 2026-10-18).
+- The owner ran the five checks of hard rule 5 in the repo root (read 2026-10-18). `go build`, `go vet`, `gofmt -l`, and `staticcheck` printed nothing. `go test` printed `ok` for `internal/terminal`. The root has no `main.go` yet, so the build covers only `terminal`.
+- `staticcheck` is in `~/go/bin`, and the owner put that folder in the `PATH`.
 - `LICENSE` and `.gitignore` are written. The folder `go-practice/` is in the repo (D-87).
+- The tutorials on functions and methods, and on writing tests, are done. The tutorial on tests ended with Part 3 of the tests for `Error`.
 
 **The open work.** The owner writes the code of the gate, in this order:
 
-1. `internal/terminal/error_test.go` holds only `package terminal`. Write two tests. The first shows that `Error()` gives the exact text `terminal: operation: cause`, with the expected text typed by hand. The second shows that `errors.Is` finds the cause.
-2. The other parts of `internal/terminal`: the raw mode, the alternate screen, the cursor, the window size, and the resize events.
+1. **The raw mode in `internal/terminal`. This is the next work.** See "Next action".
+2. The other parts of `internal/terminal`: the alternate screen, the cursor, the window size, and the resize events.
 3. The skeleton of `main.go`, with the demo.
 4. The five checks and the manual checks of the gate file.
 
-**The tutorials in progress.** The skill `tutorial` (D-83) governs them. The owner says "Review" to ask for a review. The agent sends one part in each message.
+**The tutorials in progress.** The skill `tutorial` (D-83) governs them. The owner says "Review" to ask for a review. The agent sends one part in each message. No tutorial is in progress now. The tutorial on the raw mode has not started.
 
-- Functions and methods: done. Parts 1 to 5 are reviewed. The owner answered the questions on value and pointer receivers and chose pointers (D-86).
-- Writing tests, in `go-practice/`: Parts 1 to 4 are done and reviewed. **Part 5 is sent. The owner has not started it, and has not asked for a review.**
-  - Part 3 (a table of cases) is done. `TestDivide` has a table with the fields `nums`, `want`, and `errorText`. An empty `errorText` means "no error" (the owner chose this path). Three separate `if` statements check the answer, the missing error, and the text of the error. Each has its own message.
-  - Part 4 (the text of an error) is done. The owner showed a mutation check: a changed letter in the message made the test fail with both texts, and the restore made it pass. `go vet ./...` printed nothing (read 2026-10-18). Reviews of Parts 3 and 4 found six findings, and all are fixed.
-  - Part 5 (a test for the cause with `errors.Is`) is the open part. The steps: (1) make a named error value in `go-practice/main.go` with `errors.New`. (2) Make `divide` wrap it with `fmt.Errorf` and the verb `%w` for the zero case. (3) Write `TestDivideCause` in `main_test.go`, with `errors.Is`. (4) Decide what `TestDivide` must change, because its exact text will change. (5) Do the mutation check: change `%w` to `%v`, see the test fail, and restore `%w`. The check: `go vet ./...` prints nothing, `go test -count=1 -v ./...` passes, and the owner pastes the output of the mutation check.
-  - Do not re-send Part 5 in full when the owner resumes. Tell the owner that Part 5 waits, and answer the questions.
-  - The owner then writes the two real tests in `error_test.go`.
-- The owner asked for the example of a struct and an anonymous struct type (the skill `explain-go`). The agent gave it. The owner had trouble with "shape of a case" and with a wrong pointer of the agent to line 24 of the test. Say plainly what each line does, and check a claim about a line against the file before you send it.
-
-**Open findings:** none. The findings of the tutorial reviews are fixed. **Open questions of this gate:** none. OQ-25 waits for gate 3.
+**Open findings:** none. The findings of the tutorial reviews are fixed or kept. E-5 is kept (package-level test names with the prefix `test`). **Open questions of this gate:** none. OQ-25 waits for gate 3.
 
 **Notes for the next session:**
 
 - Before the first function that returns `&Error{...}`, tell the owner to read the question "Why is my nil error value not equal to nil?" at https://go.dev/doc/faq#nil_error (D-86).
 - With a pointer error type, the target of `errors.As` is the address of a variable of type `*terminal.Error`. Explain it when the owner reaches that code.
-- The owner asks many questions about Go words. Use the skill `explain-go`. The comparison of the photocopy and the address slip works for receivers.
+- The owner asks many questions about Go words. Use the skill `explain-go`. The comparison of the parcel for wrapped errors, and the photocopy and the address slip for receivers, work well.
 - The owner runs `go test -count=1 ./...` in `go-practice/`. The root pattern `./...` skips that folder.
+- **How the owner wants the steps.** The owner said that vague steps are hard to follow. Name each piece: the file, the function, the Go feature, and the `go doc` topic. Do not write "decide" without the options. Do not write the code (hard rule 1), but name every part of it.
+- **Doc comments (D-89).** Do not ask for a comment on a name that says its whole job. The owner found such requests noise.
+- **Unsaved files.** A mutation check once passed because the file was not saved. Tell the owner to save the file before each run.
+- **Package-level names in tests.** Go has no scope for one file. A name at the top of a `.go` file belongs to the whole package, tests too. The owner keeps the prefix `test` for such names.
+- **A failure message.** The owner likes a message of the form `call(inputs) = result, want result`. The standard terms (`go doc errors`, read 2026-10-18): an error wraps another error, the wrapped error is a child, and `errors.Is` looks in the tree.
 
-**Next action.** Do the start check of section 1. Read `go-practice/main_test.go` and `go-practice/main.go`. Tell the owner the state in max five lines. Then wait for "Review" on Part 5, or for a question. When Part 5 passes, the tutorial on tests is done. Then the owner writes the two tests in `internal/terminal/error_test.go`, and the agent reviews them.
+**Next action.** Do the start check of section 1. Tell the owner the state in max five lines. Then plan the raw mode with the owner, and wait. Do not send a tutorial part before the owner asks.
+
+1. Read the gate file, P-29 and P-31 of `docs/code-standards.md`, and "Facts that expire" for the `syscall` names.
+2. Ask the owner the open design questions with `AskUserQuestion`. The agent must not decide them. The questions: the form of the API (a function that returns a restore function, or a type with methods), the file layout (the calls that need `unsafe` go in one small file for macOS, P-29), which file descriptor to use, which flags the raw mode changes, and how an error of `syscall` becomes a `terminal.Error`. Record each answer in `docs/decisions.md` at once.
+3. Check each fact about `syscall` with `go doc` before it goes into a part (hard rule 10).
+4. Offer the tutorial on the raw mode, one part in each message (D-83). The first part holds the plan.
+5. The owner then writes the code and the tests, and asks for a review.
 
 ## The procedures of a session
 
@@ -199,7 +205,7 @@ A context compaction keeps the session bound to its gate.
 
 ## Next steps, in order
 
-1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then wait for "Review" on Part 5 of the tutorial on tests (see "RESUME HERE").
+1. **Gate 2: the terminal** (D-73). Gate file: `docs/gates/gate-02-terminal.md`. First action: the start check, then plan the raw mode with the owner (see "RESUME HERE").
 2. **Gates 3 to 14,** in the order of `docs/roadmap.md`. The first session of each gate reviews the success criteria of its gate file with the owner.
 
 ## Facts that expire
@@ -215,9 +221,22 @@ A context compaction keeps the session bound to its gate.
 - On Go 1.27.2, `go mod init` writes the version of the local toolchain in the `go` line (`cmd/go/internal/modload/init.go`, read 2026-10-18).
 - A directory that holds a `go.mod` is skipped by `./...` of the parent module (`go help packages`, read 2026-10-18). So `go-practice/` is outside the five checks of the root, except `gofmt -l .` (D-87).
 - The Go FAQ (read 2026-10-18) advises a value receiver for a small struct that a method only reads. The Code Review Comments say "when in doubt, use a pointer". The owner chose pointers (D-86).
+- `staticcheck` is in `~/go/bin` on this Mac, and the owner put that folder in the `PATH` (read 2026-10-18). The five checks of the root passed on 2026-10-18.
 - Python 3 on this Mac holds the Unicode 13.0 data in `unicodedata`. It gives the width class of a glyph (read 2026-10-16).
 
 ## The three most recent sessions
+
+### 2026-10-18d: gate 2, the tests and the checks
+
+**The owner finished the tutorial on tests** in `go-practice/`. Part 5 added a named error, `%w`, and a test with `errors.Is`. The mutation check changed `%w` to `%v`, and the test failed as it must.
+
+**The owner wrote the two tests of `terminal.Error`.** Reviews found five small findings, and all are fixed or kept. The mutation check on `Unwrap()` failed the test, and the restore passed it. The five checks of the root passed.
+
+**The owner set D-89.** A doc comment is needed only when the name does not state its whole job. The agent changed `AGENTS.md`, `docs/code-standards.md`, and the gate files.
+
+**The agent made one mistake.** An unsaved file made a mutation check pass. The owner saw the result and asked, and the agent found the cause.
+
+**The session paused** with this record. The next work is the raw mode.
 
 ### 2026-10-18c: gate 2, the tutorial on tests, Parts 3 and 4
 
@@ -241,18 +260,6 @@ A context compaction keeps the session bound to its gate.
 
 **The owner set two process rules** (D-87, D-88). The practice folder lives in the repo. The words `Resume gate <NN>` start a session, and no file holds a path of one machine.
 
-### 2026-10-18: gate 2, the start and the open questions
-
-**The start check passed** on the branch `gate-02-terminal` at `bd8f305`. Gate 2 is now "active" (D-35).
-
-**The owner answered three questions** (D-74 to D-77). The `go` line is `go 1.27.2`. The license is MIT, and the owner writes `LICENSE`. The exit codes are 1 for an error and 70 for a panic.
-
-**The owner kept the success criteria** and added one for `LICENSE` (D-78). The owner wrote `LICENSE`, and the agent compared it with an MIT copy in the Go tree. The agent wrote `.gitignore`.
-
-**A new question waits for gate 3** (OQ-25). The default flag set calls `os.Exit(2)` on a bad flag, but D-56 lets only `main` call `os.Exit`.
-
-**The guard blocked `go env`.** Hard rule 5 does not allow it, so the guard is correct. The hand-off now has a trap for it.
-
 ## The archive
 
-`docs/session-archive.md` holds the older session records, word for word (D-27). The records of 2026-10-16 and 2026-10-16b, both gate 0, moved there on 2026-10-18. The record of 2026-10-16c, gate 1, moved there on 2026-10-18 too.
+`docs/session-archive.md` holds the older session records, word for word (D-27). The records of 2026-10-16 and 2026-10-16b, both gate 0, moved there on 2026-10-18. The record of 2026-10-16c, gate 1, moved there on 2026-10-18 too. The record of 2026-10-18, gate 2, moved there on 2026-10-18 too.

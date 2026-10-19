@@ -31,7 +31,7 @@ The first session of this gate reviews these criteria with the owner.
 - [ ] A golden test compares the map of one fixed seed with a text file in `testdata` (P-37).
 - [ ] `internal/cave` imports only `world` and `content` (P-30).
 - [ ] The owner ran the five checks of hard rule 5, and the output shows no failure.
-- [ ] The limits of `docs/code-standards.md` hold, and each exported name has a doc comment.
+- [ ] The limits of `docs/code-standards.md` hold, and each exported name that does not state its whole job has a doc comment (D-89).
 
 ## Open questions
 

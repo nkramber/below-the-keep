@@ -27,7 +27,7 @@ The first session of this gate reviews these criteria with the owner.
 - [ ] A failure to make the folder or the file is a `logs.Error` (P-31). `main` exits through the error path.
 - [ ] `internal/logs` imports no package of the project (P-30).
 - [ ] The owner ran the five checks of hard rule 5, and the output shows no failure.
-- [ ] The limits of `docs/code-standards.md` hold, and each exported name has a doc comment.
+- [ ] The limits of `docs/code-standards.md` hold, and each exported name that does not state its whole job has a doc comment (D-89).
 
 ## Open questions
 

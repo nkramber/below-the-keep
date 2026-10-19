@@ -5,9 +5,11 @@ import (
 	"fmt"
 )
 
+var ErrDivideByZero = errors.New("cannot divide by zero")
+
 func divide(a, b int) (int, error) {
 	if b == 0 {
-		return 0, errors.New("cannot divide by zero")
+		return 0, fmt.Errorf("divide %d / %d: %w", a, b, ErrDivideByZero)
 	}
 	return a / b, nil
 }

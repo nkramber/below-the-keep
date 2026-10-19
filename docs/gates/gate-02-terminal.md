@@ -35,7 +35,7 @@ The package `terminal`:
 
 - [ ] Only `internal/terminal` imports `syscall` or `unsafe` (D-21, P-29).
 - [ ] `internal/terminal` imports no package of the project (P-30).
-- [ ] `terminal.Error` holds the operation and the cause, and it has an `Unwrap` method (D-56, P-31). A test shows that `errors.Is` finds the cause. The same test shows that the text has the form "terminal: operation: cause".
+- [x] `terminal.Error` holds the operation and the cause, and it has an `Unwrap` method (D-56, P-31). A test shows that `errors.Is` finds the cause. The same test shows that the text has the form "terminal: operation: cause".
 - [ ] `terminal` gives the window size in columns and rows. A manual check: the demo shows the same numbers as `stty size`, which prints the rows first.
 - [ ] `terminal` gives a channel of resize events. A test sends `SIGWINCH` to its own process, and it receives one event.
 
@@ -52,7 +52,7 @@ The skeleton of `main`. The agent checks these items in the review:
 - [ ] Only `main` calls `os.Exit`, and only after the restore (D-56).
 - [ ] A deferred `recover` in `main` restores the terminal and prints the stack (D-55).
 - [ ] The limits of `docs/code-standards.md` hold (D-57, D-58).
-- [ ] Each exported name has a doc comment, and each package has a package comment (P-39).
+- [ ] Each exported name that does not state its whole job has a doc comment (D-89), and each package has a package comment (P-39).
 
 ## Open questions
 

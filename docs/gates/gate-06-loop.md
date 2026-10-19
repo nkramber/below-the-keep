@@ -33,7 +33,7 @@ The first session of this gate reviews these criteria with the owner.
 - [ ] `internal/game` imports only the packages of its row in P-30.
 - [ ] No demo code stays in `main.go`.
 - [ ] The owner ran the five checks of hard rule 5, and the output shows no failure.
-- [ ] The limits of `docs/code-standards.md` hold, and each exported name has a doc comment.
+- [ ] The limits of `docs/code-standards.md` hold, and each exported name that does not state its whole job has a doc comment (D-89).
 
 ## Open questions
 
